@@ -334,4 +334,15 @@ mean(RI_var$Range, na.rm=TRUE)
 ggarrange(A, B, common.legend = TRUE, ncol = 2, nrow = 1, labels=c("A","B"), legend = "bottom",widths=c(2,1))
 ggsave("../figure1.png", units="in", height = 4, width=8, dpi=300)
 
-          
+sessionInfo()          
+# [1] ggridges_0.5.3 signal_0.7-7   ggpubr_0.4.0   scales_1.1.1   TTR_0.24.3     xts_0.12.1     zoo_1.8-9      ggplot2_3.3.5  tidyr_1.1.3   
+# [10] reshape2_1.4.4 dplyr_1.0.7    plyr_1.8.6    
+# 
+# loaded via a namespace (and not attached):
+# [1] tidyselect_1.1.1  purrr_0.3.4       haven_2.4.3       lattice_0.20-44   carData_3.0-4     colorspace_2.0-2  vctrs_0.3.8       generics_0.1.0   
+# [9] utf8_1.2.2        rlang_0.4.12      pillar_1.6.2      foreign_0.8-81    glue_1.4.2        withr_2.4.2       readxl_1.3.1      lifecycle_1.0.0  
+# [17] stringr_1.4.0     munsell_0.5.0     ggsignif_0.6.2    gtable_0.3.0      cellranger_1.1.0  zip_2.2.0         labeling_0.4.2    rio_0.5.27       
+# [25] forcats_0.5.1     curl_4.3.2        fansi_0.5.0       broom_0.7.9       Rcpp_1.0.7        backports_1.2.1   abind_1.4-5       farver_2.1.0     
+# [33] gridExtra_2.3     hms_1.1.0         digest_0.6.28     stringi_1.7.4     openxlsx_4.2.4    rstatix_0.7.0     cowplot_1.1.1     grid_4.1.1       
+# [41] cli_3.1.0         tools_4.1.1       magrittr_2.0.1    tibble_3.1.4      crayon_1.4.1      car_3.0-11        pkgconfig_2.0.3   ellipsis_0.3.2   
+# [49] MASS_7.3-54       data.table_1.14.0 rstudioapi_0.13   gitcreds_0.1.1    R6_2.5.1          compiler_4.1.1   
