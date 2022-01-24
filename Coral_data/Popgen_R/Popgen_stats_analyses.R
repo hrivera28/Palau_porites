@@ -147,8 +147,7 @@ for (reef in levels(site_lineages$Site)){
 
 
 ## Plot STRUCTURE assignments for RAD data (Figure 3A) ####
-Fig3A<-ggplot(rad_K4_meta_long, aes(x=Sample, y=Assignment, fill=Lineage))+
-  geom_bar(stat="identity")+
+ggplot(rad_K4_meta_long, aes(x=Sample, y=Assignment, fill=Lineage))+geom_bar(stat="identity")+
   scale_fill_manual(values=c("darkblue","cyan3","lightcoral","red2"))+
   facet_grid(~factor(Site, levels=c('Mecherchar','Mecherchar_Channel', 'Taoch', 'Ngermid', 'Risong', 'Helen',
                                     'Ngelsible','Outer_Taoch', 'Ngerdiluches', 'Drop_Off','Ngerchelong', 'Melekeok', 'Kayangel')), 
@@ -165,7 +164,7 @@ Fig3A<-ggplot(rad_K4_meta_long, aes(x=Sample, y=Assignment, fill=Lineage))+
         panel.border = element_rect(colour="black", size=0.5),
         panel.spacing.x = unit(0.1, "lines")) 
 
-ggsave("Fig3A.png", width=12, height=4, units="in", dpi=300)  
+ggsave("Figure3A.png", width=12, height=4, units="in", dpi=300)  
 
 ## RAD Principal components analyses and DAPC (Figure 3B-C) ####
 #Calculate PCA
@@ -178,7 +177,7 @@ rad_pca_df$Sample<-rownames(rad_pca_df)
 rad_pca_df<-left_join(rad_pca_df,rad_strata, by="Sample")
 
 ## Figure 3B
-Fig3B<-(ggplot(rad_pca_df, aes(x=Axis1, y=Axis2,colour=K4_radpop))+
+ggplot(rad_pca_df, aes(x=Axis1, y=Axis2,colour=K4_radpop))+
           geom_point(size=0.85)+stat_ellipse(geom="polygon", aes(fill=K4_radpop),alpha=0.25)+
           scale_colour_manual(values=c("darkblue","powderblue", "lightcoral", "red1"))+
           scale_fill_manual(values=c("darkblue","powderblue", "lightcoral", "red1"))+
@@ -187,7 +186,8 @@ Fig3B<-(ggplot(rad_pca_df, aes(x=Axis1, y=Axis2,colour=K4_radpop))+
           ylab(paste("PC1 (", round(eval(rad_pca_eig$variance.percent[2]),2), "%)", sep=""))+
           theme_bw()+theme(axis.title = element_text(face="bold"),
                            axis.ticks = element_blank(),
-                           axis.text = element_blank()))
+                           axis.text = element_blank())
+ggsave("Figure3B.png", width=4, height=4, units="in", dpi=300)  
 
 #DAPC of results 
 rad_clust<-find.clusters(rad_gin, n.pca = 140, n.clust = 4)
