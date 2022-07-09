@@ -125,7 +125,8 @@ colnames(AllData_gg)<-c("DateTime", "Site", "Temp")
   scale_y_continuous(breaks= c(28, 30, 32), labels=c("28°C", "30°C","32°C"),limits = c(26.8,32.35))+
   scale_x_datetime(date_labels="%Y", date_breaks="year", date_minor_breaks = "months", expand=c(0.02,0.0))+ggtitle("")+
   ylab("")+xlab("")+
-    theme(axis.text.x = element_text(size=10, face="bold"),
+    theme(plot.background = element_rect(colour="white"),
+          axis.text.x = element_text(size=10, face="bold"),
           plot.title = element_text(hjust=-0.07, size = 7),
           axis.text.y = element_text(size=10, face="bold"),
           panel.grid.major.y = element_line(size=.75),
@@ -138,7 +139,7 @@ colnames(AllData_gg)<-c("DateTime", "Site", "Temp")
           plot.margin = margin(15,15,0,0,"pt"))+
   scale_color_manual(values=c("coral2", "darkgoldenrod3", "brown4", "maroon3","springgreen1", "skyblue2","turquoise3", "springgreen4", "royalblue3"),
                      labels=c("Mecherchar","Taoch", "Risong", "Ngermid", "Helen", "Drop Off", "Ngerdiluches", "Ngerchelong", "Kayangel"))+
-  guides(colour=FALSE)+theme(plot.margin = margin(0,0,0,0,"cm"))+
+  guides(colour=FALSE)+
   guides(color = guide_legend(overrride.aes = list (size=10))))
 
   
@@ -318,6 +319,7 @@ mean(RI_var$Range, na.rm=TRUE)
 # 0.5925325
 
 
+
 ## ggridges variability plot 
 (B<-ggplot(All_var, aes(x=Range, y=Site, fill=Site))+geom_density_ridges(alpha=0.7, quantile_lines=TRUE, quantiles=2)+
   theme_bw()+guides(fill="none")+ xlab("Diurnal Range (°C)")+ylab("")+
@@ -332,7 +334,7 @@ mean(RI_var$Range, na.rm=TRUE)
 
 ## Final Figure 1 #### 
 ggarrange(A, B, common.legend = TRUE, ncol = 2, nrow = 1, labels=c("A","B"), legend = "bottom",widths=c(2,1))
-ggsave("../figure1.png", units="in", height = 4, width=8, dpi=300)
+ggsave("../figure1_fixed.png", units="in", height = 4, width=8, dpi=300)
 
 sessionInfo()          
 # [1] ggridges_0.5.3 signal_0.7-7   ggpubr_0.4.0   scales_1.1.1   TTR_0.24.3     xts_0.12.1     zoo_1.8-9      ggplot2_3.3.5  tidyr_1.1.3   
