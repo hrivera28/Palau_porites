@@ -369,7 +369,7 @@ pivot_longer(struct_comp, cols=c("PI_msat", "RD_msat","DB_msat","LB_msat", "LB_r
 ggarrange(FigS2A, FigS2B, ncol=1, nrow=2, labels = c("A", "B"))
 
 ## Core data by lineage (Figure 4) ####
-cores<-read.table("../core_data_correct_coreP13.txt", header=TRUE)
+cores<-read.table("input_files/core_data_correct_coreP13.txt", header=TRUE)
 cores<-left_join(cores, select(metadata, Sample, Region, final_lineage), by="Sample")
 cores<-subset(cores, !is.na(final_lineage))
 
