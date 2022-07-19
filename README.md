@@ -56,7 +56,7 @@ Statistical metrics of temperature time series for each site were calculated usi
 
 #### References 
 - Barkley, H. C. & Cohen, A. L. Skeletal records of community-level bleaching in Porites corals from Palau. Coral Reefs 35, 1407–1417 (2016). 
-- Baums, I. B., Boulay, J. N., Polato, N. R. & Hellberg, M. E. No gene flow across the Eastern Pacific Barrier in the reef-building coral Porites lobata. Molecular Ecology 21, 5418–5433 (2012).![image](https://user-images.githubusercontent.com/7366822/179787290-b71ed82b-2bf2-4814-841e-2e1fc3796d3c.png)
+- Baums, I. B., Boulay, J. N., Polato, N. R. & Hellberg, M. E. No gene flow across the Eastern Pacific Barrier in the reef-building coral Porites lobata. Molecular Ecology 21, 5418–5433 (2012).
 - Catchen, J., Hohenlohe, P. A., Bassham, S., Amores, A. & Cresko, W. A. Stacks: An analysis tool set for population genomics. Molecular Ecology 22, 3124–3140 (2013).
 - DeCarlo, T. M. et al. Coral macrobioerosion is accelerated by ocean acidification and nutrients. Geology 43, 7–10 (2014).
 - Mollica, N. R. N. et al. Skeletal records of bleaching reveal different thermal thresholds of Pacific coral reef assemblages. Coral Reefs 38, 743–757 (2019).
