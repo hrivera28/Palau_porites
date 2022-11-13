@@ -75,9 +75,9 @@ popNames(rad_gin)
 rad_gl
 rad_gin
 
-# Table S2
-# select(metadata, -Cohort, -Lipid, -BoringVol, -TissThick)->tableS2
-# write.csv(tableS2, file = "tableS2.csv",  
+# Supplementary Data 1
+# select(metadata, -Cohort, -Lipid, -BoringVol, -TissThick)->Data1
+# write.csv(Data1, file = "Supplementary_Data_1.csv",  
 #           quote=FALSE, na = "-", row.names = FALSE)
 
 
@@ -129,6 +129,8 @@ rbind(site_lineages, data.frame("Site"= c("Mecherchar", "Ngermid", "Ngerchelong"
                                 "n" = c(0,0,0), 
                                 "Freq"=c(0,0,0)))->site_lineages
 
+site_lineages$Site<-as.factor(site_lineages$Site)
+
 for (reef in levels(site_lineages$Site)){
   subset(site_lineages, Site==reef)->test
   test$ymax <- cumsum(test$Freq)
@@ -142,9 +144,8 @@ for (reef in levels(site_lineages$Site)){
            xlim(c(2, 4)) +
            theme_void()+
            theme(legend.position = "none"))
-  ggsave(paste(reef, ".png", sep=""), get(paste("pie", reef, sep="")), width=5, height=5, units="in", dpi=300, bg="transparent")
+  ggsave(paste("figures/fig2/",reef, ".png", sep=""), get(paste("pie", reef, sep="")), width=5, height=5, units="in", dpi=300, bg="transparent")
 }
-
 
 
 #make long dataframe for plotting
@@ -169,7 +170,7 @@ ggplot(rad_K4_meta_long, aes(x=Sample, y=Assignment, fill=Lineage))+geom_bar(sta
         panel.border = element_rect(colour="black", size=0.5),
         panel.spacing.x = unit(0.1, "lines")) 
 
-ggsave("Figure3A.png", width=12, height=4, units="in", dpi=300)  
+ggsave("figures/fig3/Figure3A.png", width=12, height=4, units="in", dpi=300)  
 
 ## RAD Principal components analyses and DAPC (Figure 3B-C) ####
 #Calculate PCA
@@ -188,11 +189,11 @@ ggplot(rad_pca_df, aes(x=Axis1, y=Axis2,colour=K4_radpop))+
           scale_fill_manual(values=c("darkblue","powderblue", "lightcoral", "red1"))+
           guides(colour="none", fill="none")+
           xlab(paste("PC1 (", round(eval(rad_pca_eig$variance.percent[1]),2), "%)", sep=""))+
-          ylab(paste("PC1 (", round(eval(rad_pca_eig$variance.percent[2]),2), "%)", sep=""))+
+          ylab(paste("PC2 (", round(eval(rad_pca_eig$variance.percent[2]),2), "%)", sep=""))+
           theme_bw()+theme(axis.title = element_text(face="bold"),
                            axis.ticks = element_blank(),
                            axis.text = element_blank())
-ggsave("Figure3B.png", width=4, height=4, units="in", dpi=300)  
+ggsave("figures/fig3/Figure3B.png", width=4, height=4, units="in", dpi=300)  
 
 #DAPC of results 
 rad_clust<-find.clusters(rad_gin, n.pca = 140, n.clust = 4)
@@ -207,13 +208,13 @@ myCol <- c("cyan3","lightcoral","darkblue", "red1") #These are matched in order 
 #table(pop(rad_gin), rad_clust$grp) # double check order before plotting 
 
 #2D DAPC (Figure3C) 
-pdf("Figure3C.pdf", width=5, height=4)
+pdf("figures/fig3/Figure3C.pdf", width=5, height=4)
 scatter(rad_dapc, scree.da=FALSE, bg="white", pch=19, clab=0,
         cstar=0, col=myCol, scree.pca=TRUE, posi.pca="topright")
 dev.off()
 
 #1D DAPC (Figure 3C insert)
-pdf("Figure3C_insert.pdf", width=5, height=4)
+pdf("figures/fig3/Figure3C_insert.pdf", width=5, height=4)
 scatter(rad_dapc,1,1, col=myCol, bg="white",scree.da=FALSE, legend=FALSE, solid=.4)
 dev.off()
 
@@ -229,14 +230,14 @@ rad_fst_pl<-data.frame("L1"=c(rep("DB", 3), rep ("LB",2), "PI"),
 ggplot(rad_fst_pl, aes(x=L1, y=L2, label=as.character(Fst)))+
   geom_tile(mapping=aes(fill=Fst))+
   scale_fill_gradient(low="thistle1", high="plum3")+
-  geom_text(size=3, fontface="bold")+
+  geom_text(size=3, fontface="bold", color="black")+
   guides(fill="none")+
   theme_bw()+
-  theme(axis.text= element_text(face="bold"),
+  theme(axis.text= element_text(face="bold", color="black"),
         axis.title=element_blank(),
         panel.grid = element_blank())
 
-ggsave("Fig3D.png", width=3, height=3, units="in", dpi=300)
+ggsave("figures/fig3/Figure3D.png", width=3, height=3, units="in", dpi=300)
 
 
 
@@ -264,7 +265,7 @@ ggplot(msat_K4_data_long, aes(x=Sample, y=Msat_val, fill=msat_group))+
         strip.text =element_text(face="bold", size=6),
         panel.border = element_rect(colour="black", size=0.5),
         panel.spacing.x = unit(0.1, "lines"))
-ggsave("FigureS1A.png", width=12, height=3, units="in", dpi=300)  
+ggsave("figures/figS1/FigureS1A.png", width=12, height=3, units="in", dpi=300)  
 
 ## Msat PCA/DAPC (Figure S1B-C) ####
 msat_scale<-scaleGen(msat_genid, NA.method="mean")
@@ -286,7 +287,7 @@ msat_pca_df<-left_join(msat_pca_df,msat_strata, by="Sample")
            theme(axis.title = element_text(face="bold"),
                  axis.ticks = element_blank(),
                  axis.text = element_blank()))
-#ggsave("FigS1B.png", width=5, height=4, units="in", dpi=300)
+ggsave("figures/figS1/FigS1B.png", width=5, height=4, units="in", dpi=300)
 
 ##DAPC 
 xval_msat <- xvalDapc(msat_scale, pop(msat_genid), n.pca.max = 300, training.set = 0.9,
@@ -296,9 +297,11 @@ xval_msat <- xvalDapc(msat_scale, pop(msat_genid), n.pca.max = 300, training.set
 msat_clust<-find.clusters(msat_genid,n.pca = 300, n.clust = 4)
 msat_dapc<-dapc(msat_genid, msat_clust$grp, n.pca = 50, n.da = 3)
 
-myCol <- c( "red1","darkblue","cyan3","lightcoral") #These are matched in order based on: 
-# table(pop(msat_genid), msat_dapc$grp) 
-#Same comment here as the RAD section above. The colors may need reording based on the way the clusters order themselves
+
+### IMPORTANT ### IF RE-RUNNING CODE CHECK POP ORDER
+myCol <- c( "lightcoral","red1","cyan3","darkblue") #These are matched in order based on: 
+table(pop(msat_genid), msat_dapc$grp) 
+#Same comment here as the RAD section above. The colors may need re-ordering based on the way the clusters order themselves
 
 #2D DAPC (Fig S1C)
 pdf("msat_dpc.pdf", width=5, height=4)
@@ -317,7 +320,7 @@ msat_fst<-genet.dist(msat_genid, method="Nei87")
 # plot as heat map
 msat_fst_pl<-data.frame("L1"=c(rep("DB", 3), rep ("LB",2), "PI"), 
                         "L2"= c("LB", "PI", "RD", "PI", "RD", "RD"),
-                        "Fst"=c(0.07,0.16,0.10,0.14,0.10, 0.16))
+                        "Fst"=c(0.07,0.12,0.10,0.14,0.10, 0.16))
 
 ggplot(msat_fst_pl, aes(x=L1, y=L2, label=as.character(Fst)))+
   geom_tile(mapping=aes(fill=Fst))+
@@ -325,11 +328,11 @@ ggplot(msat_fst_pl, aes(x=L1, y=L2, label=as.character(Fst)))+
   geom_text(size=3, fontface="bold")+
   guides(fill="none")+
   theme_bw()+
-  theme(axis.text= element_text(face="bold"),
+  theme(axis.text= element_text(face="bold", colour="black"),
         axis.title=element_blank(),
         panel.grid = element_blank())
 
-ggsave("FigS1D.png", width=3, height=3, units="in", dpi=300)
+ggsave("figures/figS1/FigureS1D.png", width=3, height=3, units="in", dpi=300)
 
 
 ## Compare Msat-RAD STRUCTURE results (Figure S2) ####
@@ -366,10 +369,11 @@ pivot_longer(struct_comp, cols=c("PI_msat", "RD_msat","DB_msat","LB_msat", "LB_r
   theme(axis.title = element_text(face="bold"),
         axis.text = element_text(face="bold")))
 
-ggarrange(FigS2A, FigS2B, ncol=1, nrow=2, labels = c("A", "B"))
+ggarrange(FigS2A, FigS2B, ncol=1, nrow=2, labels = c("a", "b"))
+ggsave("figures/figS2/figureS2.png", width=5, height=7, units="in", dpi=300)
 
 ## Core data by lineage (Figure 4) ####
-cores<-read.table("input_files/core_data_correct_coreP13.txt", header=TRUE)
+cores<-read.table("input_files/core_data.txt", header=TRUE)
 cores<-left_join(cores, select(metadata, Sample, Region, final_lineage), by="Sample")
 cores<-subset(cores, !is.na(final_lineage))
 
@@ -526,8 +530,8 @@ SB_counts%>%mutate(year = case_when(c(Band_type=="Count98SB" |Band_type=="Count9
     annotate(geom="text", label="N=6", x=3, y=0.025, fontface="italic")+
     annotate(geom="text", label="N=8", x=4, y=0.025, fontface="italic"))
 
-ggarrange(Fig4A,Fig4B,Fig4C,Fig4D, nrow=2, ncol=2, labels = c("A", "B", "C", "D"))
-ggsave("Figure4.png", width=6, height=6, units="in")
+ggarrange(Fig4A,Fig4B,Fig4C,Fig4D, nrow=2, ncol=2, labels = c("a", "b", "c", "d"))
+ggsave("figures/fig4/Figure4.png", width=6, height=6, units="in")
 
 ## Core data by for DB and LB lineages by Region (Figure 5) ####
 subset(cores_run, final_lineage=="DB" | final_lineage =="LB")->cores_dblb
@@ -703,8 +707,8 @@ sb_labs<-data.frame(Region=c("OR","OR","RI", "RI"),
               colour="black", fontface="italic"))
 
 
-ggarrange(Fig5A,Fig5B,Fig5C,Fig5D, nrow=2, ncol=2, labels = c("A", "B", "C", "D"))
-ggsave("Figure5.png", width=8, height=6, units="in")
+ggarrange(Fig5A,Fig5B,Fig5C,Fig5D, nrow=2, ncol=2, labels = c("a", "b", "c", "d"))
+ggsave("figures/fig5/Figure5.png", width=8, height=6, units="in")
 
 
 ## Stress band data for 2010 by lineage (Figure S4) ####
@@ -737,215 +741,9 @@ ggplot(subset(SB_counts, year==2010 & Band_type=="Count10SB"), aes(x=final_linea
   annotate(geom="text", label="N=6", x=3, y=0.015, fontface="italic")+
   annotate(geom="text", label="N=9", x=4, y=0.015, fontface="italic")
 
-ggsave("FigS4.png", width=5, height=3, units="in")
+ggsave("figures/figs4/FigS4.png", width=5, height=3, units="in")
 
-
-## Within lineage pop-structure across sites gen struct ####
-
-# Separate the lineages into different objects 
-# RAD data 
-LB_index<-which(rad_strata$K4_radpop=="LB")
-PI_index<-which(rad_strata$K4_radpop=="PI")
-RD_index<-which(rad_strata$K4_radpop=="RD")
-DB_index<-which(rad_strata$K4_radpop=="DB")
-
-rad_lg_LB<-rad_gl[LB_index,]
-rad_lg_DB<-rad_gl[DB_index,]
-rad_lg_PI<-rad_gl[PI_index,]
-rad_lg_RD<-rad_gl[RD_index,]
-
-setPop(rad_lg_LB)<-~Site
-setPop(rad_lg_DB)<-~Site
-setPop(rad_lg_PI)<-~Site
-setPop(rad_lg_RD)<-~Site
-
-rad_fst_LB<-stamppFst(rad_lg_LB, nboots=100, percent = 95, nclusters=3)
-rad_fst_DB<-stamppFst(rad_lg_DB, nboots=100, percent = 95, nclusters=3)
-rad_fst_PI<-stamppFst(rad_lg_PI, nboots=100, percent = 95, nclusters=3)
-rad_fst_RD<-stamppFst(rad_lg_RD, nboots=100, percent = 95, nclusters=3)
-
-# PCA 
-# LB 
-LB_rad_PCA <- glPca(rad_lg_LB)
-LB_rad_PCA_res<-as.data.frame(LB_rad_PCA$scores)
-LB_rad_PCA_res$Sample<-row.names(LB_rad_PCA_res)
-LB_rad_PCA_res<-left_join(LB_rad_PCA_res,select(rad_strata, Sample, Site, Region), by="Sample")
-
-(A1<-ggplot(LB_rad_PCA_res, aes(x=PC1, y=PC2,shape=Region,  colour=Region))+
-  geom_point(size=2)+stat_ellipse(geom="polygon", aes(colour=Region),alpha=0)+
-  scale_shape_manual(values=c(16,17), labels=c("Outer Reefs","Rock Islands"))+
-  scale_colour_manual(values=c("blue", "red2"), labels=c("Outer Reefs","Rock Islands"))+
-  ggtitle("LB lineage, RAD data")+
-  theme_bw()+theme(axis.title = element_text(face="bold"),
-                   axis.ticks = element_blank(),
-                   axis.text = element_blank(),
-                   plot.title = element_text(face="bold")))  
-
-# DB 
-DB_rad_PCA <- glPca(rad_lg_DB)
-DB_rad_PCA_res<-as.data.frame(DB_rad_PCA$scores)
-DB_rad_PCA_res$Sample<-row.names(DB_rad_PCA_res)
-DB_rad_PCA_res<-left_join(DB_rad_PCA_res,select(rad_strata, Sample, Site, Region), by="Sample")
-
-(B1<-ggplot(DB_rad_PCA_res, aes(x=PC1, y=PC2,shape=Region,  colour=Region))+
-  geom_point(size=2)+stat_ellipse(geom="polygon", aes(colour=Region),alpha=0)+
-  scale_shape_manual(values=c(16,17), labels=c("Outer Reefs","Rock Islands"))+
-  scale_colour_manual(values=c("blue", "red2"), labels=c("Outer Reefs","Rock Islands"))+
-  ggtitle("DB lineage, RAD data")+
-  theme_bw()+theme(axis.title = element_text(face="bold"),
-                   axis.ticks = element_blank(),
-                   axis.text = element_blank(),
-                   plot.title = element_text(face="bold")))  
-
-
-
-# PI 
-toRemove <- is.na(glMean(rad_lg_PI, alleleAsUnit = FALSE)) # TRUE where NA
-which(toRemove) # position of entirely non-typed loci
-rad_lg_PI_clean <- rad_lg_PI[, !toRemove]
-
-PI_rad_PCA <- glPca(rad_lg_PI_clean)
-PI_rad_PCA_res<-as.data.frame(PI_rad_PCA$scores)
-PI_rad_PCA_res$Sample<-row.names(PI_rad_PCA_res)
-PI_rad_PCA_res<-left_join(PI_rad_PCA_res,select(rad_strata, Sample, Site, Region), by="Sample")
-
-(C1<-ggplot(PI_rad_PCA_res, aes(x=PC1, y=PC2,shape=Region,  colour=Region))+
-  geom_point(size=2)+stat_ellipse(geom="polygon", aes(colour=Region),alpha=0)+
-  scale_shape_manual(values=c(16,17), labels=c("Outer Reefs","Rock Islands"))+
-  scale_colour_manual(values=c("blue", "red2"), labels=c("Outer Reefs","Rock Islands"))+
-  ggtitle("PI lineage, RAD data")+
-  theme_bw()+theme(axis.title = element_text(face="bold"),
-                   axis.ticks = element_blank(),
-                   axis.text = element_blank(),
-                   plot.title = element_text(face="bold")))  
-
-
-# RD
-toRemove <- is.na(glMean(rad_lg_RD, alleleAsUnit = FALSE)) # TRUE where NA
-which(toRemove) # position of entirely non-typed loci
-rad_lg_RD_clean <- rad_lg_RD[, !toRemove]
-
-RD_rad_PCA <- glPca(rad_lg_RD_clean)
-RD_rad_PCA_res<-as.data.frame(RD_rad_PCA$scores)
-RD_rad_PCA_res$Sample<-row.names(RD_rad_PCA_res)
-RD_rad_PCA_res<-left_join(RD_rad_PCA_res,select(rad_strata, Sample, Site, Region), by="Sample")
-
-(D1<-ggplot(RD_rad_PCA_res, aes(x=PC1, y=PC2,shape=Region,  colour=Region))+
-  geom_point(size=2)+stat_ellipse(geom="polygon", aes(colour=Region),alpha=0)+
-  scale_shape_manual(values=c(16,17), labels=c("Outer Reefs","Rock Islands"), limits=c("OR", "RI"))+
-  scale_colour_manual(values=c("blue", "red2"), labels=c("Outer Reefs","Rock Islands"), limits=c("OR", "RI"))+
-  ggtitle("RD lineage, RAD data")+
-  theme_bw()+theme(axis.title = element_text(face="bold"),
-                   axis.ticks = element_blank(),
-                   axis.text = element_blank(),
-                   plot.title = element_text(face="bold")) )
-
-# microsat data
-pop(msat_genid)
-msat_genid_sep<-seppop(msat_genid)
-
-setPop(msat_genid_sep$LB)<-~Site
-setPop(msat_genid_sep$DB)<-~Site
-setPop(msat_genid_sep$PI)<-~Site
-setPop(msat_genid_sep$RD)<-~Site
-
-
-msat_fst_LB<-genet.dist(msat_genid_sep$LB, method="Nei87")
-msat_fst_DB<-genet.dist(msat_genid_sep$DB, method="Nei87")
-msat_fst_PI<-genet.dist(msat_genid_sep$PI, method="Nei87")
-msat_fst_RD<-genet.dist(msat_genid_sep$RD, method="Nei87")
-
-
-# PCA 
-# LB 
-msat_scale_LB<-scaleGen(msat_genid_sep$LB, NA.method="mean")
-msat_pca_LB<-dudi.pca(msat_scale_LB, cent=FALSE, scale=FALSE, scannf = FALSE, nf = 3)
-# gets the percent variance explained by the PCs
-msat_pca_eig_LB<-get_eigenvalue(msat_pca_LB)
-msat_pca_df_LB<-msat_pca_LB$li
-msat_pca_df_LB$Sample<-rownames(msat_pca_df_LB)
-msat_pca_df_LB<-left_join(msat_pca_df_LB, select(msat_strata,Sample,Site, Region), by="Sample")
-
-(A2<-ggplot(msat_pca_df_LB, aes(x=Axis1, y=Axis2, colour=Region, shape=Region))+
-           geom_point(size=2)+stat_ellipse(geom="polygon", aes(colour=Region),alpha=0)+
-           scale_shape_manual(values=c(16,17), labels=c("Outer Reefs","Rock Islands"))+
-           scale_colour_manual(values=c("blue", "red2"), labels=c("Outer Reefs","Rock Islands"))+
-    xlab("PC1")+
-    ylab("PC2")+
-          theme_bw()+
-           ggtitle("LB lineage, msat data")+
-           theme(axis.title = element_text(face="bold"),
-                 axis.ticks = element_blank(),
-                 axis.text = element_blank()))
-
-
-# DB 
-msat_scale_DB<-scaleGen(msat_genid_sep$DB, NA.method="mean")
-msat_pca_DB<-dudi.pca(msat_scale_DB, cent=FALSE, scale=FALSE, scannf = FALSE, nf = 3)
-# gets the percent variance explained by the PCs
-msat_pca_eig_DB<-get_eigenvalue(msat_pca_DB)
-msat_pca_df_DB<-msat_pca_DB$li
-msat_pca_df_DB$Sample<-rownames(msat_pca_df_DB)
-msat_pca_df_DB<-left_join(msat_pca_df_DB, select(msat_strata,Sample,Site, Region), by="Sample")
-
-(B2<-ggplot(msat_pca_df_DB, aes(x=Axis1, y=Axis2, colour=Region, shape=Region))+
-  geom_point(size=2)+stat_ellipse(geom="polygon", aes(colour=Region),alpha=0)+
-  scale_shape_manual(values=c(16,17), labels=c("Outer Reefs","Rock Islands"))+
-  scale_colour_manual(values=c("blue", "red2"), labels=c("Outer Reefs","Rock Islands"))+
-    xlab("PC1")+
-    ylab("PC2")+
-    theme_bw()+
-  ggtitle("DB lineage, msat data")+
-  theme(axis.title = element_text(face="bold"),
-        axis.ticks = element_blank(),
-        axis.text = element_blank()))
-
-# PI 
-msat_scale_PI<-scaleGen(msat_genid_sep$PI, NA.method="mean")
-msat_pca_PI<-dudi.pca(msat_scale_PI, cent=FALSE, scale=FALSE, scannf = FALSE, nf = 3)
-# gets the percent variance explained by the PCs
-msat_pca_eig_PI<-get_eigenvalue(msat_pca_PI)
-msat_pca_df_PI<-msat_pca_PI$li
-msat_pca_df_PI$Sample<-rownames(msat_pca_df_PI)
-msat_pca_df_PI<-left_join(msat_pca_df_PI, select(msat_strata,Sample,Site, Region), by="Sample")
-
-(C2<-ggplot(msat_pca_df_PI, aes(x=Axis1, y=Axis2, colour=Region, shape=Region))+
-  geom_point(size=2)+stat_ellipse(geom="polygon", aes(colour=Region),alpha=0)+
-  scale_shape_manual(values=c(16,17), labels=c("Outer Reefs","Rock Islands"))+
-  scale_colour_manual(values=c("blue", "red2"), labels=c("Outer Reefs","Rock Islands"))+
-    xlab("PC1")+
-    ylab("PC2")+
-    theme_bw()+
-  ggtitle("PI lineage, msat data")+
-  theme(axis.title = element_text(face="bold"),
-        axis.ticks = element_blank(),
-        axis.text = element_blank()))
-
-# RD 
-msat_scale_RD<-scaleGen(msat_genid_sep$RD, NA.method="mean")
-msat_pca_RD<-dudi.pca(msat_scale_RD, cent=FALSE, scale=FALSE, scannf = FALSE, nf = 3)
-# gets the percent variance explained by the PCs
-msat_pca_eig_RD<-get_eigenvalue(msat_pca_RD)
-msat_pca_df_RD<-msat_pca_RD$li
-msat_pca_df_RD$Sample<-rownames(msat_pca_df_RD)
-msat_pca_df_RD<-left_join(msat_pca_df_RD, select(msat_strata,Sample,Site, Region), by="Sample")
-
-(D2<-ggplot(msat_pca_df_RD, aes(x=Axis1, y=Axis2, colour=Region, shape=Region))+
-  geom_point(size=2)+stat_ellipse(geom="polygon", aes(colour=Region),alpha=0)+
-  scale_shape_manual(values=c(16,17), labels=c("Outer Reefs","Rock Islands"))+
-  scale_colour_manual(values=c("blue", "red2"), labels=c("Outer Reefs","Rock Islands"))+
-  xlab("PC1")+
-  ylab("PC2")+
-  theme_bw()+
-  ggtitle("RD lineage, msat data")+
-  theme(axis.title = element_text(face="bold"),
-        axis.ticks = element_blank(),
-        axis.text = element_blank()))
-
-ggarrange(A1,A2, B1, B2, C1, C2, D1, D2, ncol=2, nrow=4, common.legend = TRUE, legend = "bottom")
-ggsave("within_lineage_pcas.png", width=6, height=10, units="in", dpi=300)
-
-## Symbiont popgen ####
+## Symbiont popgen (Figure S3) ####
 # This contains 218 bi-allelic SNPs from 137 individuals 
 snp_gen_p<-read.vcfR("input_files/sym_snps_final.recode.vcf")
 
@@ -982,23 +780,16 @@ ggplot(sym_fst_pl, aes(x=L1, y=L2, label=as.character(Fst)))+
   geom_tile(mapping=aes(fill=Fst))+
   scale_fill_gradient(low="thistle1", high="plum3")+
   geom_text(size=3, fontface="bold")+
-  guides(fill=FALSE)+
+  guides(fill="none")+
   theme_bw()+
-  theme(axis.text= element_text(face="bold"),
+  theme(axis.text= element_text(face="bold", colour="black"),
         axis.title=element_blank(),
         panel.grid = element_blank())
 
-ggsave("Sym_fst.png", width=3, height=3, units="in", dpi=300)
+ggsave("figures/figS3/FigureS3C.png", width=3, height=3, units="in", dpi=300)
 
 Snp_pca_data_sym<-scaleGen(snp_genid_sym, NA.method="mean")
-Snp_pca_sym<-dudi.pca(Snp_pca_data_sym)
-Snp_pca_sym<-dudi.pca(Snp_pca_data_sym, cent=FALSE, scale=FALSE,scannf = FALSE, nf = 3)
-#dudi.pca(df = Snp_pca_data_sym, scannf = FALSE, nf = 6)
-col<-funky(15)
-s.class(Snp_pca_sym$li, )
-s.class(Snp_pca_sym$li, as.factor(pop(snp_genid_sym)), col=transp(col, 0.8), axesell = FALSE, cstar = 0, clabel=0.5, cpoint=3)
-s.class(Snp_pca_sym$li, pop(snp_genid_sym), col=transp(col, 0.8), axesell = FALSE, cstar = 0, xax=1, yax=3, clabel=0.5, cpoint=3)
-#setPop(snp_genid_sym)<-~MsatPop
+Snp_pca_sym<-dudi.pca(Snp_pca_data_sym, cent=FALSE, scale=FALSE,scannf = FALSE, nf = 6)
 
 fviz_pca_var(Snp_pca_sym, repel=TRUE, select.var = list(cos2 = 0.4), label="none")
 
@@ -1010,9 +801,9 @@ fviz_pca_var(Snp_pca_sym, repel=TRUE, select.var = list(cos2 = 0.4), label="none
                            repel = TRUE))
 
 inv.pca.sym+scale_shape_manual(values=c(rep(16,12)))+
-  guides(fill="none", shape="none")+ggtitle("Symbiont RAD Snps PCA")
+  guides(fill="none", shape="none")+ggtitle("")
 
-ggsave("PCA_indvs_sym.png", dpi=300, width=6, height=4, units="in")
+ggsave("figures/figS3/FigureS3A.png", dpi=300, width=6, height=4, units="in")
 
 
 xval_sym <- xvalDapc(Snp_pca_data_sym, pop(snp_genid_sym), n.pca.max = 300, training.set = 0.9,
@@ -1023,17 +814,17 @@ xval_sym <- xvalDapc(Snp_pca_data_sym, pop(snp_genid_sym), n.pca.max = 300, trai
 Snp_grp_p<-find.clusters(snp_genid_sym, max.n.clust = 10)
 sym_dapc<-dapc(snp_genid_sym, Snp_grp_p$grp, n.pca = 60, n.da = 3)
 
-myCol <- c( "red1","darkblue","cyan3","lightcoral") #These are matched in order based on: 
-# table(pop(snp_genid_sym), Snp_grp_p$grp) 
+myCol <- c( "red1","cyan3","darkblue","lightcoral") #These are matched in order based on: 
+table(pop(snp_genid_sym), Snp_grp_p$grp) 
 # Same comment here as the RAD section above. The colors may need reording based on the way the clusters order themselves
 
 #2D DAPC (Fig S1C)
-pdf("sym_dpc.pdf", width=5, height=4)
+pdf("figures/figS3/Figure3B.pdf", width=5, height=4)
 scatter(sym_dapc, scree.da=FALSE, bg="white", pch=19, clab=0,
         cstar=0, col=myCol, scree.pca=TRUE, posi.pca="topright")
 dev.off()
 
 #1D DAPC (DF1) (Fig S1C insert)
-pdf("sym_dpc_1dim.pdf", width=5, height=4)
+pdf("figures/figS3/Figure3B_inset.pdf", width=5, height=4)
 scatter(sym_dapc,1,1, col=myCol, bg="white",scree.da=FALSE, legend=FALSE, solid=.4)
 dev.off()
