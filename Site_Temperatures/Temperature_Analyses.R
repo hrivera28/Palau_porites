@@ -333,8 +333,8 @@ mean(RI_var$Range, na.rm=TRUE)
         axis.title =element_text(face="bold")))
 
 ## Final Figure 1 #### 
-ggarrange(A, B, common.legend = TRUE, ncol = 2, nrow = 1, labels=c("A","B"), legend = "bottom",widths=c(2,1))
-ggsave("../figure1_fixed.png", units="in", height = 4, width=8, dpi=300)
+ggarrange(A, B, common.legend = TRUE, ncol = 2, nrow = 1, labels=c("a","b"), legend = "bottom",widths=c(2,1))
+ggsave("../figure1.png", units="in", height = 4, width=8, dpi=300)
 
 sessionInfo()          
 # [1] ggridges_0.5.3 signal_0.7-7   ggpubr_0.4.0   scales_1.1.1   TTR_0.24.3     xts_0.12.1     zoo_1.8-9      ggplot2_3.3.5  tidyr_1.1.3   
