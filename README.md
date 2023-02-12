@@ -1,7 +1,5 @@
 ## Population genetics of *Porites cf. lobata* across the Palauan archipelago 
-This repo contains the data and scripts associated with Rivera et al. 2022 (in revison), Palau’s warmest reefs harbor a thermally tolerant coral lineage that thrives across different habitats; a paper on thermal tolerance and population genetics of *Porites cf. lobata* corals across the Palauan archipelago. 
-
-A preprint of this manuscript is available [here](https://www.researchsquare.com/article/rs-1190526/v1). Please note, that in the pdf version of the preprint, figures are not properly rendered. The figures are fine in the html version linked above. Also note, that the manuscript has undergone some substantial revisions since the preprint, though the main conclusions of the manuscript remain unchanged. 
+This repo contains the data and scripts associated with [Rivera et al. 2023](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=d9wEznkAAAAJ&sortby=pubdate&citation_for_view=d9wEznkAAAAJ:NMxIlDl6LWMC), Palau’s warmest reefs harbor thermally tolerant corals that thrive across different habitats; a paper on thermal tolerance and population genetics of *Porites cf. lobata* corals across the Palauan archipelago. 
 
 ### Repository Organization 
 The repository is separated into a population genetic folder, which contains SNPs, microsatellite, and growth data; and a 
